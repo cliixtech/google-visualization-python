@@ -230,9 +230,12 @@ class DataTable(object):
       return bool(value)
 
     elif value_type == "number":
-      if isinstance(value, (int, float, Decimal)):
+      if isinstance(value, (int, float)):
         return value
-      raise DataTableException("Wrong type %s when expected number" % t_value)
+      elif isinstance(value, Decimal):
+        return float(value)
+      else:
+        raise DataTableException("Wrong type %s when expected number" % t_value)
 
     elif value_type == "string":
         return value
