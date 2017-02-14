@@ -901,7 +901,7 @@ class DataTable(object):
     return (self.ToCsv(columns_order, order_by, separator="\t")
             .decode("utf-8").encode("UTF-16LE"))
 
-  def _ToJSonObj(self, columns_order=None, order_by=()):
+  def ToJSonObj(self, columns_order=None, order_by=()):
     """Returns an object suitable to be converted to JSON.
 
     Args:
@@ -995,7 +995,7 @@ class DataTable(object):
     """
 
     return self.encoder.encode(
-        self._ToJSonObj(columns_order, order_by)).encode("utf-8")
+        self.ToJSonObj(columns_order, order_by)).encode("utf-8")
 
   def ToJSonResponse(self, columns_order=None, order_by=(), req_id=0,
                      response_handler="google.visualization.Query.setResponse"):
@@ -1029,7 +1029,7 @@ class DataTable(object):
     response_obj = {
         "version": "0.6",
         "reqId": str(req_id),
-        "table": self._ToJSonObj(columns_order, order_by),
+        "table": self.ToJSonObj(columns_order, order_by),
         "status": "ok"
     }
     return "%s(%s);" % (response_handler,
